@@ -29,7 +29,6 @@ def python(text="is cool"):
     return "Python {}".format(text.replace("_", " "))
 
 
-
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """ returns n is a number if is a number """

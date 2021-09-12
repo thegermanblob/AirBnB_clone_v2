@@ -28,5 +28,6 @@ def python(text="is cool"):
     """ returns c with added text"""
     return "Python {}".format(text.replace("_", " "))
 
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
