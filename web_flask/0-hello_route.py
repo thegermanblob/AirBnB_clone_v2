@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """ flask app dlepoyer"""
 from flask import Flask
 from flask.scaffold import F
