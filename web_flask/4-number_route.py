@@ -30,10 +30,10 @@ def python(text="is cool"):
 
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """ returns n is a number if is a number """
-    return "{} is a number".format(n) if n.isnumeric() else None
+    return "{} is a number".format(n)
 
 
 if __name__ == '__main__':
