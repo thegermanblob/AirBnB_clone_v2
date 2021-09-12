@@ -10,5 +10,6 @@ def hello_hbnb():
     """ prints hello """
     return 'Hello HBNB!'
 
+
 if __name__ == '__main__':
     app.run()
