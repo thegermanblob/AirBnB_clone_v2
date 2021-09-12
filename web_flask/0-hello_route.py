@@ -1,15 +1,14 @@
 #!/usr/bin/python3
-""" flask app dlepoyer"""
+""" flask app deployer module """
 from flask import Flask
-from flask.scaffold import F
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', strict_slashes=False)
 def hello_hbnb():
-    """ prints hello """
+    """ function prints hello """
     return 'Hello HBNB!'
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0")
