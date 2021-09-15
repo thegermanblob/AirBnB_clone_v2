@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -114,20 +115,47 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
+        """ Creates object"""
+        classdict = {}
+        argv = args.split(" ")
+        for kvpair in argv[1:]:
+            if re.match(r'[a-z,A-Z,\d,_]*="[a-z,A-Z,_,,\\,",\d]*"', kvpair):
+                """ Verifies the parameter for string values"""
+                key = kvpair.split("=")[0]
+                value = kvpair.split("=")[1].replace("_", " ")
+                indx = value.find('"', 1, -1)
+                if value[indx - 1] == '\\':
+                    classdict[key] = (str(value))
+                elif value.find('"', 1, -1) == -1:
+                    classdict[key] = (str(value))
+            elif re.match(r'[a-z,A-Z,\d,_]*=\d+\.\d*', kvpair):
+                """ Verifies the parameter for float values"""
+                key = kvpair.split("=")[0]
+                value = kvpair.split("=")[1]
+                classdict[key] = (float(value))
+            elif re.match(r'[a-z,A-Z,\d,_]*=\d+', kvpair):
+                """ Verifies the parameter for int values"""
+                key = kvpair.split("=")[0]
+                value = kvpair.split("=")[1]
+                classdict[key] = (int(value))
+
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif argv[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[argv[0]]()
+        for key in classdict:
+            setattr(new_instance, key, classdict[key])
         storage.save()
         print(new_instance.id)
         storage.save()
 
     def help_create(self):
         """ Help information for the create method """
+
         print("Creates a class of any type")
         print("[Usage]: create <className>\n")
 
@@ -319,6 +347,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
